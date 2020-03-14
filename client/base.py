@@ -62,7 +62,7 @@ def create_tensor(*dimensions, fill=0):
     dim = subdim.pop()
     array = []
     for _ in range(dim):
-      array.append(create_tensor(subdim, fill))
+      array.append(create_tensor(*subdim, fill))
     return array
 
 
