@@ -54,7 +54,7 @@ class GridShape:
 
 
 #creates a dimensional array with a list of given dimensions
-def create_tensor(dimensions, fill=0):
+def create_tensor(*dimensions, fill=0):
   if len(dimensions) == 0:
     return fill
   else:
@@ -76,7 +76,7 @@ class Board:
     self.width = width
     self.height = height
     self.blank = blank
-    self.matrix = create_tensor([width, height], fill=blank)
+    self.matrix = create_tensor(width, height, fill=blank)
 
   def x_check(self, x):
     return in_range(x, 0, self.width-1)
