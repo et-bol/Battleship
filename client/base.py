@@ -1,6 +1,3 @@
-from copy import copy
-
-
 class Coords:
   def __init__(self, x, y):
     self.x = x
@@ -49,7 +46,7 @@ class GridShape:
   def gen_at(self, x, y):
     for coord in self.gen():
       yield Coords(x + coord.x, y + coord.y)
-'''
+''' and None #block comment, not docstring
 
 
 
@@ -58,11 +55,11 @@ def create_tensor(*dimensions, fill=0):
   if len(dimensions) == 0:
     return fill
   else:
-    subdim = copy(dimensions)
+    subdim = list(dimensions)
     dim = subdim.pop()
     array = []
     for _ in range(dim):
-      array.append(create_tensor(*subdim, fill))
+      array.append(create_tensor(*subdim, fill=fill))
     return array
 
 
