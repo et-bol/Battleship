@@ -138,8 +138,9 @@ class Ship:
       yield from self.gen_down(x,y)
   
   def remove(self, board):
-    board.place(self.gen(*self.pos), board.blank)
-    self.pos = None
+    if self.placed:
+      board.place(self.gen(*self.pos), board.blank)
+      self.pos = None
   
   def can_place(self, board, x, y):
     return board.can_place(self.gen(x, y))
