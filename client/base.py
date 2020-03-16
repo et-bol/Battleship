@@ -71,6 +71,10 @@ class Board:
     self.blank = blank
     self.matrix = create_tensor(width, height, fill=blank)
 
+  #iterate over board like a matrix
+  def __iter__(self, key):
+    yield from self.matrix
+
   def x_check(self, x):
     return in_range(x, 0, self.width-1)
 
