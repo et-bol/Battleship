@@ -127,13 +127,19 @@ class Ship:
     for i in range(self.length):
       yield Coords(x, y+i)
 
-  def gen(self, x, y):
+  def gen_from(self, x, y):
     if self.rot == 'right':
       yield from self.gen_right(x,y)
     elif self.rot == 'down':
       yield from self.gen_down(x,y)
 
+  def gen(self):
+    yield from self.gen_from(*self.pos)
+
   def rotate(self):
+    if self.placed:
+      raise raise AttributeError('cannot rotate ship while placed')
+
     if self.rot == 'right':
       self.rot = 'down'
     elif self.rot == 'down':
@@ -143,13 +149,13 @@ class Ship:
 
   def remove(self, board):
     if self.placed:
-      board.place(self.gen(*self.pos), board.blank)
+      board.place(self.gen(), board.blank)
       self.pos = None
 
   def can_place(self, board, x, y):
-    return board.can_place(self.gen(x, y))
+    return board.can_place(self.gen_from(x, y))
 
   def place(self, board, x, y):
     if self.can_place(board, x, y):
-      board.place(self.gen(x, y), self.id)
+      board.place(self.gen_from(x, y), self.id)
       self.pos = Coords(x, y)
