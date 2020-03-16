@@ -96,7 +96,7 @@ class Board:
 
   def is_open(self, x, y):
     if self.index_check(x,y):
-      return self.get(x,y) == self.blank
+      return self.matrix[y][x] == self.blank
     else:
       return False
 
