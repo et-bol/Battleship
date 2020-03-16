@@ -39,12 +39,9 @@ class Player:
     return True
 
   #receive data from opponent
-  def hit(self, x, y, callback=None):
+  def hit(self, x, y):
     spot = self.field.get(x, y)
     if spot is self.field.blank:
       self.hit.set(x, y, MISS)
     else:
       self.hit.set(x, y, HIT)
-
-      if self.is_sunk(spot) and callback is not None:
-          callback(spot)
