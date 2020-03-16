@@ -2,7 +2,7 @@ class Coords:
   def __init__(self, x, y):
     self.x = x
     self.y = y
-  
+
   #unpacking operator (*) to get [x, y] as arguments
   def __getitem__(self, key):
     if key == 0:
@@ -21,28 +21,24 @@ def coord_gen(matrix, target):
     for x in range(len(matrix[y])):
       if matrix[y][x] == target:
         coords.append(Coords(x,y))
-  
+
   def gen():
     yield from coords
-  
+
   return gen
-
-
 class GridShape:
   def __init__(self, gen):
     x_max = 0
     y_max = 0
-
     for coords in gen:
       if coords.x > x_max:
         x_max = coords.x
       if coords.y > y_max:
         y_max = coords.y
-
     self.x_max = x_max
     self.y_max = y_max
     self.gen = gen
-  
+
   def gen_at(self, x, y):
     for coord in self.gen():
       yield Coords(x + coord.x, y + coord.y)
@@ -89,7 +85,7 @@ class Board:
       return self.matrix[y][x]
     else:
       return self.blank
-  
+
   def set(self, x, y, val):
     if self.index_check(x,y):
       self.matrix[y][x] = val
@@ -130,18 +126,26 @@ class Ship:
   def gen_down(self, x, y):
     for i in range(self.length):
       yield Coords(x, y+i)
-  
+
   def gen(self, x, y):
     if self.rot == 'right':
       yield from self.gen_right(x,y)
     elif self.rot == 'down':
       yield from self.gen_down(x,y)
-  
+
+  def rotate(self):
+    if self.rot == 'right':
+      self.rot = 'down'
+    elif self.rot == 'down':
+      self.rot = 'right'
+    else:
+      raise ValueError('Ship.rot was an unexpected value')
+
   def remove(self, board):
     if self.placed:
       board.place(self.gen(*self.pos), board.blank)
       self.pos = None
-  
+
   def can_place(self, board, x, y):
     return board.can_place(self.gen(x, y))
 
