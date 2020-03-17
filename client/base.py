@@ -110,6 +110,21 @@ class Board:
     for coords in shape:
       self.set(*coords, fill)
 
+  #return list of adjacent coords
+  def adjacent(self, x, y):
+    adj = [
+      Coords(x-1, y),
+      Coords(x+1, y),
+      Coords(x, y-1),
+      Coords(x, y+1),
+    ]
+
+    array = []
+    for coords in adj:
+      if self.index_check(*coords):
+        array.append(coords)
+    return array
+
 
 
 class Ship:
@@ -163,18 +178,3 @@ class Ship:
     if self.can_place(board, x, y):
       board.place(self.gen_from(x, y), self.id)
       self.pos = Coords(x, y)
-
-  #return list of adjacent coords
-  def adjacent(self, x, y):
-    adj = [
-      Coords(x-1, y),
-      Coords(x+1, y),
-      Coords(x, y-1),
-      Coords(x, y+1),
-    ]
-
-    array = []
-    for coords in adj:
-      if self.index_check(*coords):
-        array.append(coords)
-    return array
